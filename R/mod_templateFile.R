@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_templateFile_ui <- function(id){
+mod_templateFile_ui <- function(id) {
   ns <- NS(id)
   tagList(
     downloadButton(ns("file"),
@@ -19,21 +19,30 @@ mod_templateFile_ui <- function(id){
 #' templateFile Server Functions
 #'
 #' @noRd
-mod_templateFile_server <- function(id){
-  moduleServer( id, function(input, output, session){
+mod_templateFile_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    # our data template - for now use the mtcars dataset
-    data <- mtcars
+    # our data template - givin the path for it
+    path_template <- system.file("app/template",
+      "template_terneiraTrack.xlsx",
+      package = "terneiraTrack"
+    )
+    # reading the data template
+    dataTemplate <- reactive({
+      sheet_names <- readxl::excel_sheets(path_template)
+      sheet_names |>
+        lapply(\(x) readxl::read_xlsx(path_template, sheet = x)) |>
+        setNames(sheet_names)
+    })
     # download the data (xlsx format)
     output$file <- downloadHandler(
       filename = function() {
-        paste("data-", Sys.Date(), ".xlsx", sep="")
+        paste("data-", Sys.Date(), ".xlsx", sep = "")
       },
       content = function(file) {
-        writexl::write_xlsx(data, file)
+        writexl::write_xlsx(dataTemplate(), file)
       }
     )
-
   })
 }
 
