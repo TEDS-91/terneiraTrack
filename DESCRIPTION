@@ -7,7 +7,9 @@ License: MIT + file LICENSE
 Imports: 
     bs4Dash,
     config (>= 0.3.2),
+    DT,
     golem (>= 0.4.1),
+    readxl,
     shiny (>= 1.8.1.1)
 Encoding: UTF-8
 LazyData: true

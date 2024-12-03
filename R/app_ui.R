@@ -15,17 +15,26 @@ app_ui <- function(request) {
       ),
       bs4Dash::dashboardSidebar(
         bs4Dash::sidebarMenu(
-          bs4Dash::menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-          bs4Dash::menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+          bs4Dash::menuItem("Entrada de Dados",
+            tabName = "dataEntry",
+            icon = icon("dashboard")
+          ),
+          bs4Dash::menuItem("Widgets",
+            tabName = "widgets",
+            icon = icon("th")
+          )
         )
       ),
       bs4Dash::dashboardBody(
         bs4Dash::tabItems(
-          bs4Dash::tabItem(tabName = "dashboard",
-                           h2("Dashboard tab content")
+          bs4Dash::tabItem(
+            tabName = "dataEntry",
+            mod_fileUploader_ui("fileUploader_1"),
+            h2("Dashboard tab content")
           ),
-          bs4Dash::tabItem(tabName = "widgets",
-                           h2("Widgets tab content")
+          bs4Dash::tabItem(
+            tabName = "widgets",
+            h2("Widgets tab content")
           )
         )
       )
