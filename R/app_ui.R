@@ -22,6 +22,14 @@ app_ui <- function(request) {
           bs4Dash::menuItem("Widgets",
             tabName = "widgets",
             icon = icon("th")
+          ),
+          bs4Dash::menuItem("Relat\u00f3rios",
+            tabName = "reports",
+            icon = icon("file")
+          ),
+          bs4Dash::menuItem("Template e Dicas de Uso",
+            tabName = "settings",
+            icon = icon("cogs")
           )
         )
       ),
@@ -34,7 +42,17 @@ app_ui <- function(request) {
           ),
           bs4Dash::tabItem(
             tabName = "widgets",
+            customValueBox(100, "Test", 10, "kg"),
             h2("Widgets tab content")
+          ),
+          bs4Dash::tabItem(
+            tabName = "reports",
+            h2("Reports tab content")
+          ),
+          bs4Dash::tabItem(
+            tabName = "settings",
+            mod_templateFile_ui("templateFile_1"),
+            h2("Settings tab content")
           )
         )
       )

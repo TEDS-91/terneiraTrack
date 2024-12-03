@@ -9,8 +9,10 @@ Imports:
     config (>= 0.3.2),
     DT,
     golem (>= 0.4.1),
+    htmltools,
     readxl,
-    shiny (>= 1.8.1.1)
+    shiny (>= 1.8.1.1),
+    writexl
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

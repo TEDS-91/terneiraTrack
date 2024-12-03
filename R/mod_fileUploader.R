@@ -11,7 +11,7 @@ mod_fileUploader_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fileInput(ns("file"),
-      label = "Faça o upload do arquivo",
+      label = "Fa\u00e7a o upload do arquivo",
       accept = c(".xlsx")
     ),
     bs4Dash::bs4Card(
