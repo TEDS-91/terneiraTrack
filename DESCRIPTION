@@ -5,6 +5,7 @@ Authors@R: person('Tadeu', 'da Silva', email = 'tadeuederzootecnista@gmail.com',
 Description: Pacote para monitoramento de crescimento e saúde bezerras leiteiras.
 License: MIT + file LICENSE
 Imports: 
+    bs4Dash,
     config (>= 0.3.2),
     golem (>= 0.4.1),
     shiny (>= 1.8.1.1)

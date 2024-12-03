@@ -9,8 +9,26 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("terneiraTrack")
+    bs4Dash::dashboardPage(
+      bs4Dash::dashboardHeader(
+        title = "TerneiraTrack"
+      ),
+      bs4Dash::dashboardSidebar(
+        bs4Dash::sidebarMenu(
+          bs4Dash::menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+          bs4Dash::menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+        )
+      ),
+      bs4Dash::dashboardBody(
+        bs4Dash::tabItems(
+          bs4Dash::tabItem(tabName = "dashboard",
+                           h2("Dashboard tab content")
+          ),
+          bs4Dash::tabItem(tabName = "widgets",
+                           h2("Widgets tab content")
+          )
+        )
+      )
     )
   )
 }
