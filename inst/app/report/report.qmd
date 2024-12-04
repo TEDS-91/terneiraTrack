@@ -1,0 +1,58 @@
+---
+title: "Report"
+format:
+  html:
+    self-contained: true
+execute:
+  echo: false
+editor: visual
+params:
+  growth_data: NULL
+  propriedade: "Santa Fe"
+  fazendeiro: "José da Silva"
+  localidade: "Carvalhos-MG"
+  data: "12/12/2024"
+  tecnico: "João das Couves"
+---
+
+## Relatório Técnico
+```{r}
+source(here::here("R/f_reportHeader.R"))
+generate_header(
+  propriedade = params$propriedade,
+  fazendeiro = params$fazendeiro,
+  localidade = params$localidade,
+  tecnico = params$tecnico,
+  data = params$data
+)
+```
+
+### Introdução
+
+
+```{r}
+params$growth_data |> 
+  tibble::as_tibble() |> 
+  dplyr::mutate(`Data nasc.` = as.Date(`Data nasc.`)) |>
+  ggplot2::ggplot(ggplot2::aes(x = `Data nasc.`, y = `Peso (kg)`)) +
+  ggplot2::geom_point() +
+  ggplot2::geom_line() +
+  ggplot2::labs(title = "Crescimento", 
+                x = "Data", 
+                y = "Peso (kg)") +
+  ggplot2::theme_bw()
+```
+
+```{r}
+
+params$growth_data |> 
+  tibble::as_tibble() |>
+  dplyr::mutate(gmd = (`Peso (kg)` - `Peso Nasc. (kg)`) / 30) |>
+  knitr::kable()
+```
+
+```{r}
+
+
+```
+

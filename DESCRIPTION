@@ -9,7 +9,10 @@ Imports:
     config (>= 0.3.2),
     DT,
     golem (>= 0.4.1),
+    here,
     htmltools,
+    pkgload,
+    quarto,
     readxl,
     shiny (>= 1.8.1.1),
     writexl

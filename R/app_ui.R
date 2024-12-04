@@ -17,14 +17,14 @@ app_ui <- function(request) {
         bs4Dash::sidebarMenu(
           bs4Dash::menuItem("Entrada de Dados",
             tabName = "dataEntry",
-            icon = icon("dashboard")
-          ),
-          bs4Dash::menuItem("Widgets",
-            tabName = "widgets",
             icon = icon("th")
           ),
-          bs4Dash::menuItem("Relat\u00f3rios",
-            tabName = "reports",
+          bs4Dash::menuItem("Dashboard",
+            tabName = "dashboard",
+            icon = icon("dashboard")
+          ),
+          bs4Dash::menuItem("Relat\u00f3rio",
+            tabName = "report",
             icon = icon("file")
           ),
           bs4Dash::menuItem("Template e Dicas de Uso",
@@ -38,15 +38,17 @@ app_ui <- function(request) {
           bs4Dash::tabItem(
             tabName = "dataEntry",
             mod_fileUploader_ui("fileUploader_1"),
+            h2("Data Entry tab content")
+          ),
+          bs4Dash::tabItem(
+            tabName = "dashboard",
+            customValueBox(100, "Test", 10, "kg"),
+            DT::dataTableOutput("data_table_teste"),
             h2("Dashboard tab content")
           ),
           bs4Dash::tabItem(
-            tabName = "widgets",
-            customValueBox(100, "Test", 10, "kg"),
-            h2("Widgets tab content")
-          ),
-          bs4Dash::tabItem(
-            tabName = "reports",
+            tabName = "report",
+            mod_report_ui("report_1"),
             h2("Reports tab content")
           ),
           bs4Dash::tabItem(
