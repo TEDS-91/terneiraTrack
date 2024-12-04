@@ -1,3 +1,6 @@
 utils::globalVariables(
-  c("mtcars")
+  c("mtcars",
+    "Peso (kg)",
+    "Peso Nasc. (kg)"
+  )
 )

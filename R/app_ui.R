@@ -42,7 +42,7 @@ app_ui <- function(request) {
           ),
           bs4Dash::tabItem(
             tabName = "dashboard",
-            customValueBox(100, "Test", 10, "kg"),
+            mod_calfGrowth_ui("calfGrowth_1"),
             DT::dataTableOutput("data_table_teste"),
             h2("Dashboard tab content")
           ),

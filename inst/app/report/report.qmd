@@ -25,7 +25,7 @@ generate_logo_header(params$consultoria, params$logo)
 ```
 
 ```{r}
-generate_header(
+generate_text_header(
   propriedade = params$propriedade,
   fazendeiro = params$fazendeiro,
   localidade = params$localidade,
@@ -36,28 +36,23 @@ generate_header(
 
 
 ```{r}
-params$growth_data |> 
-  tibble::as_tibble() |> 
+params$growth_data |>
+  tibble::as_tibble() |>
   dplyr::mutate(`Data nasc.` = as.Date(`Data nasc.`)) |>
   ggplot2::ggplot(ggplot2::aes(x = `Data nasc.`, y = `Peso (kg)`)) +
   ggplot2::geom_point() +
   ggplot2::geom_line() +
-  ggplot2::labs(title = "Crescimento", 
-                x = "Data", 
-                y = "Peso (kg)") +
+  ggplot2::labs(
+    title = "Crescimento",
+    x = "Data",
+    y = "Peso (kg)"
+  ) +
   ggplot2::theme_bw()
 ```
 
 ```{r}
-
-params$growth_data |> 
+params$growth_data |>
   tibble::as_tibble() |>
   dplyr::mutate(gmd = (`Peso (kg)` - `Peso Nasc. (kg)`) / 30) |>
   knitr::kable()
 ```
-
-```{r}
-
-
-```
-

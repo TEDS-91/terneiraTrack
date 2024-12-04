@@ -27,20 +27,13 @@ mod_templateFile_server <- function(id) {
       "template_terneiraTrack.xlsx",
       package = "terneiraTrack"
     )
-    # reading the data template
-    dataTemplate <- reactive({
-      sheet_names <- readxl::excel_sheets(path_template)
-      sheet_names |>
-        lapply(\(x) readxl::read_xlsx(path_template, sheet = x)) |>
-        stats::setNames(sheet_names)
-    })
     # download the data (xlsx format)
     output$file <- downloadHandler(
       filename = function() {
-        paste("data-", Sys.Date(), ".xlsx", sep = "")
+        paste("templateTerneiraTrack", ".xlsx", sep = "")
       },
       content = function(file) {
-        writexl::write_xlsx(dataTemplate(), file)
+        file.copy(path_template, file)
       }
     )
   })

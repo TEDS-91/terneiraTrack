@@ -12,7 +12,13 @@ app_server <- function(input, output, session) {
     data$data_uploaded()[[2]]
   })
 
-  mod_report_server("report_1", growth_data = data$data_uploaded()[[2]])
+  mod_calfGrowth_server("calfGrowth_1",
+    growth_data = data$data_uploaded()[[2]]
+  )
+
+  mod_report_server("report_1",
+    growth_data = data$data_uploaded()[[2]]
+  )
 
   mod_templateFile_server("templateFile_1")
 }

@@ -7,13 +7,13 @@ License: MIT + file LICENSE
 Imports: 
     bs4Dash,
     config (>= 0.3.2),
+    dplyr,
     DT,
     golem (>= 0.4.1),
     htmltools,
     quarto,
     readxl,
-    shiny (>= 1.8.1.1),
-    writexl
+    shiny (>= 1.8.1.1)
 Suggests:
     glue,
     here,

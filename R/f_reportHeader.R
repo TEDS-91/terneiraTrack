@@ -9,11 +9,11 @@
 #' @return
 #' @export
 #'
-generate_header <- function(propriedade,
-                            fazendeiro,
-                            localidade,
-                            tecnico,
-                            data) {
+generate_text_header <- function(propriedade,
+                                 fazendeiro,
+                                 localidade,
+                                 tecnico,
+                                 data) {
   html <- glue::glue(
     '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #ddd;">
       <tr>
@@ -55,6 +55,3 @@ generate_logo_header <- function(consultoria, logo) {
 
   htmltools::HTML(html)
 }
-
-
-

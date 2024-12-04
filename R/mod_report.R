@@ -12,8 +12,9 @@ mod_report_ui <- function(id) {
   tagList(
     downloadButton(ns("report"), "Generate report"),
     fileInput(ns("logo"),
-              "Fa\u00e7a upload do logo:",
-              accept = c("image/png", "image/jpeg")),
+      "Fa\u00e7a upload do logo:",
+      accept = c("image/png", "image/jpeg")
+    ),
     tableOutput(ns("data_table_teste"))
   )
 }
