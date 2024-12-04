@@ -1,0 +1,8 @@
+h1.title {
+  text-align: center; /* Aligns the title to the center */
+  margin-top: 20px;   /* Adds space above the title */
+  margin-bottom: 10px; /* Adds space below the title */
+  font-size: 2.5em;   /* Adjusts the font size */
+  font-weight: bold;  /* Makes the title bold */
+  color: #333;        /* Sets the color to dark gray */
+}

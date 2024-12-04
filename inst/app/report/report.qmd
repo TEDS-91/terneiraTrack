@@ -1,11 +1,13 @@
 ---
-title: "Report"
+title: "Relat\u00f3rio T\u00e9cnico"
 format:
   html:
     self-contained: true
+    css: custom_style.css
 execute:
   echo: false
 editor: visual
+reference-location: margin
 params:
   growth_data: NULL
   propriedade: "Santa Fe"
@@ -13,11 +15,16 @@ params:
   localidade: "Carvalhos-MG"
   data: "12/12/2024"
   tecnico: "João das Couves"
+  logo: NULL
+  consultoria: "Costa Lab Consulting"
 ---
 
-## Relatório Técnico
 ```{r}
 source(here::here("R/f_reportHeader.R"))
+generate_logo_header(params$consultoria, params$logo)
+```
+
+```{r}
 generate_header(
   propriedade = params$propriedade,
   fazendeiro = params$fazendeiro,
@@ -26,8 +33,6 @@ generate_header(
   data = params$data
 )
 ```
-
-### Introdução
 
 
 ```{r}

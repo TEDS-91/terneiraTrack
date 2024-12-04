@@ -32,3 +32,29 @@ generate_header <- function(propriedade,
 
   htmltools::HTML(html)
 }
+
+#' @title Generate Logo Header of Quarto Report.
+#'
+#' @param consultoria Consulting name.
+#' @param logo Path to the logo.
+#'
+#' @return
+#' @export
+#'
+generate_logo_header <- function(consultoria, logo) {
+  html <- glue::glue(
+    '<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px;">
+      <div>
+        <h1 style="margin: 0;">{consultoria}</h1>
+      </div>
+      <div>
+        <img src="{logo}" alt="Logo" style="height: 80px;">
+      </div>
+    </div>'
+  )
+
+  htmltools::HTML(html)
+}
+
+
+
