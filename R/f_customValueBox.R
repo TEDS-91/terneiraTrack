@@ -1,20 +1,25 @@
 #' Custom Vale Box.
 #'
-#' @param value.
-#' @param name.
-#' @param change.
-#' @param unit
+#' @param value The value to be displayed in the value box.
+#' @param name The name of the value box.
+#' @param change The change in the value.
+#' @param unit The unit of the value.
+#' @param show_change Whether to show the change in the value box.
 #'
-#' @return
+#' @return A custom value box.
 #' @export
 #'
 #' @examples
-#' customValueBox(100, "Test", 10, "kg")
-customValueBox <- function(value, name, change, unit = "") {
-  icon <- if (change >= 0) {
-    paste0('<i class="fa fa-arrow-up" style="color:green;">', formatC(change, format = "f", digits = 2), "%</i>")
+#' customValueBox(100, "Test", 10, "kg", show_change = TRUE)
+customValueBox <- function(value, name, change, unit = "", show_change = FALSE) {
+  icon <- if (show_change) {
+    if (change >= 0) {
+      paste0('<i class="fa fa-arrow-up" style="color:green;">', formatC(change, format = "f", digits = 2), "%</i>")
+    } else {
+      paste0('<i class="fa fa-arrow-down" style="color:red;">', formatC(abs(change), format = "f", digits = 2), "%</i>")
+    }
   } else {
-    paste0('<i class="fa fa-arrow-down" style="color:red;">', formatC(abs(change), format = "f", digits = 2), "%</i>")
+    ""
   }
 
   html <- paste0(
@@ -29,3 +34,4 @@ customValueBox <- function(value, name, change, unit = "") {
 
   htmltools::HTML(html)
 }
+

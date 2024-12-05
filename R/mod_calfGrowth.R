@@ -13,8 +13,19 @@ mod_calfGrowth_ui <- function(id) {
     h2("Calf Growth tab content"),
     uiOutput(ns("growth_kpis")),
     bs4Dash::box(
-      title = "Dados brutos da tabela",
-      status = "primary",
+      title = "Curva de Crescimento das Bezerras",
+      status = "success",
+      solidHeader = TRUE,
+      collapsible = TRUE,
+      width = 12,
+      height = "auto",
+      footer = tags$p("A linha preta representa o desempenho m\u00e9dio das bezerras.",
+                      style = "font-size: 12px; color: grey; text-align: center;"),
+      plotly::plotlyOutput(ns("data_types"))
+    ),
+    bs4Dash::box(
+      title = "Dados Brutos da Tabela",
+      status = "success",
       solidHeader = TRUE,
       collapsible = TRUE,
       width = 12,
@@ -33,13 +44,62 @@ mod_calfGrowth_server <- function(id, growth_data) {
 
     adg_calc <- reactive({
       growth_data |>
-        dplyr::mutate("ADG (kg)" = (`Peso (kg)` - `Peso Nasc. (kg)`) / 30)
+        dplyr::mutate(
+          `Num. Bezerra` = as.factor(`Num. Bezerra`),
+          "Idade Pesagem (dias)" = as.numeric(difftime(`Data Pesagem`, `Data Nasc.`)),
+          "ADG (kg)" = (`Peso (kg)` - `Peso Nasc. (kg)`) / 30
+        )
+    })
+
+    output$data_types <- plotly::renderPlotly({
+      #browser()
+      data <- adg_calc() |>
+        dplyr::select(`Num. Bezerra`, `Peso Nasc. (kg)`) |>
+        dplyr::mutate("Idade Pesagem (dias)" = 0) |>
+        dplyr::rename("Peso (kg)" = `Peso Nasc. (kg)`) |>
+        dplyr::bind_rows(
+          adg_calc() |>
+            dplyr::filter(Desmamada == "Nao") |>
+            dplyr::select(`Num. Bezerra`, `Peso (kg)`, `Idade Pesagem (dias)`)
+        )
+
+      model_gmd <- stats::lm(`Peso (kg)` ~ `Idade Pesagem (dias)`, data = data)
+
+      data |>
+        plotly::plot_ly(
+          x = ~`Idade Pesagem (dias)`,
+          y = ~`Peso (kg)`,
+          type = 'scatter',
+          mode = 'lines+markers',
+          color = ~`Num. Bezerra`,
+          split = ~`Num. Bezerra`,
+          hoverinfo = "text",
+          text = ~paste(
+            "Idade (dias):", `Idade Pesagem (dias)`,
+            "<br>Peso (kg):", `Peso (kg)`,
+            "<br>Num. Bezerra:", `Num. Bezerra`
+          )
+        ) |>
+        plotly::add_lines(
+          x = ~`Idade Pesagem (dias)`,
+          y = ~(`Idade Pesagem (dias)` * stats::coef(model_gmd)[[2]] + stats::coef(model_gmd)[[1]]),
+          name = "Regression Line",
+          line = list(color = "black"),
+          hoverinfo = "none" # Desativa hover para a linha de regressão
+        ) |>
+        plotly::layout(
+          title = "Rela\u00e7\u00e3o entre Peso e Idade",
+          xaxis = list(title = "Idade (dias)"),
+          yaxis = list(title = "Peso (kg)"),
+          showlegend = FALSE,
+          legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.2)
+        )
     })
 
     output$growth_kpis <- renderUI({
       bs4Dash::box(
-        title = "KPIs",
-        status = "primary",
+        title = "Principais Indicadores de Desempenho.",
+        status = "success",
         solidHeader = TRUE,
         collapsible = TRUE,
         width = 12,

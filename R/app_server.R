@@ -8,9 +8,9 @@ app_server <- function(input, output, session) {
   # Your application server logic
   data <- mod_fileUploader_server("fileUploader_1")
 
-  output$data_table_teste <- DT::renderDataTable({
-    data$data_uploaded()[[2]]
-  })
+  # output$data_table_teste <- DT::renderDataTable({
+  #   data$data_uploaded()[[2]]
+  # })
 
   mod_calfGrowth_server("calfGrowth_1",
     growth_data = data$data_uploaded()[[2]]

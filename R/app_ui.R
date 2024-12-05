@@ -11,9 +11,20 @@ app_ui <- function(request) {
     # Your application UI logic
     bs4Dash::dashboardPage(
       bs4Dash::dashboardHeader(
-        title = "TerneiraTrack"
+        #title = bs4Dash::dashboardBrand(
+          #title = "TerneiraTrack",
+          #color = "success",
+          # href = "https://www.google.fr",
+          # image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
+        #)
       ),
       bs4Dash::dashboardSidebar(
+        skin = "light",
+        status = "success",
+        bs4Dash::sidebarUserPanel(
+          image = "https://image.flaticon.com/icons/svg/1149/1149168.svg",
+          name = "TerneiraTrack"
+        ),
         bs4Dash::sidebarMenu(
           bs4Dash::menuItem("Entrada de Dados",
             tabName = "dataEntry",
@@ -43,7 +54,7 @@ app_ui <- function(request) {
           bs4Dash::tabItem(
             tabName = "dashboard",
             mod_calfGrowth_ui("calfGrowth_1"),
-            DT::dataTableOutput("data_table_teste"),
+            # DT::dataTableOutput("data_table_teste"),
             h2("Dashboard tab content")
           ),
           bs4Dash::tabItem(

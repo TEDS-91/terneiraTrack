@@ -6,7 +6,7 @@
 #' @param tecnico Technician.
 #' @param data Visit date.
 #'
-#' @return
+#' @return A header for the Quarto report.
 #' @export
 #'
 generate_text_header <- function(propriedade,
@@ -38,7 +38,7 @@ generate_text_header <- function(propriedade,
 #' @param consultoria Consulting name.
 #' @param logo Path to the logo.
 #'
-#' @return
+#' @return A header with the consulting name and logo.
 #' @export
 #'
 generate_logo_header <- function(consultoria, logo) {
