@@ -10,14 +10,29 @@
 mod_fileUploader_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    fileInput(ns("file"),
-      label = "Fa\u00e7a o upload do arquivo",
-      accept = c(".xlsx")
+    bs4Dash::box(
+      title = "Upload de Arquivo",
+      status = "success",
+      solidHeader = TRUE,
+      collapsible = TRUE,
+      width = 12,
+      fluidRow(
+        column(
+          6,
+          fileInput(ns("file"),
+            label = "Fa\u00e7a o upload do arquivo",
+            accept = c(".xlsx")
+          )
+        ),
+        column(
+          6,
+          uiOutput(ns("sheet_selector"))
+        ) # Dynamic menu for selecting sheets
+      )
     ),
-    uiOutput(ns("sheet_selector")), # Dynamic menu for selecting sheets
     bs4Dash::bs4Card(
       title = "Dados do arquivo",
-      status = "primary",
+      status = "success",
       solidHeader = TRUE,
       width = 12,
       DT::dataTableOutput(ns("data_table"))

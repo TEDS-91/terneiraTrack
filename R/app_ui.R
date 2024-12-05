@@ -11,12 +11,12 @@ app_ui <- function(request) {
     # Your application UI logic
     bs4Dash::dashboardPage(
       bs4Dash::dashboardHeader(
-        #title = bs4Dash::dashboardBrand(
-          #title = "TerneiraTrack",
-          #color = "success",
-          # href = "https://www.google.fr",
-          # image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
-        #)
+        # title = bs4Dash::dashboardBrand(
+        # title = "TerneiraTrack",
+        # color = "success",
+        # href = "https://www.google.fr",
+        # image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
+        # )
       ),
       bs4Dash::dashboardSidebar(
         skin = "light",
@@ -31,8 +31,17 @@ app_ui <- function(request) {
             icon = icon("th")
           ),
           bs4Dash::menuItem("Dashboard",
-            tabName = "dashboard",
-            icon = icon("dashboard")
+            icon = icon("dashboard"),
+            bs4Dash::menuSubItem(
+              text = "Performance",
+              tabName = "performance",
+              icon = icon("cow")
+            ),
+            bs4Dash::menuSubItem(
+              text = "Sa\u00fade",
+              tabName = "health",
+              icon = icon("suitcase-medical")
+            )
           ),
           bs4Dash::menuItem("Relat\u00f3rio",
             tabName = "report",
@@ -52,10 +61,14 @@ app_ui <- function(request) {
             h2("Data Entry tab content")
           ),
           bs4Dash::tabItem(
-            tabName = "dashboard",
+            tabName = "performance",
             mod_calfGrowth_ui("calfGrowth_1"),
             # DT::dataTableOutput("data_table_teste"),
-            h2("Dashboard tab content")
+            h2("Performance tab content")
+          ),
+          bs4Dash::tabItem(
+            tabName = "health",
+            h2("Health tab content")
           ),
           bs4Dash::tabItem(
             tabName = "report",

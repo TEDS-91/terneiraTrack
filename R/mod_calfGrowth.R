@@ -10,7 +10,6 @@
 mod_calfGrowth_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    h2("Calf Growth tab content"),
     uiOutput(ns("growth_kpis")),
     bs4Dash::box(
       title = "Curva de Crescimento das Bezerras",
@@ -20,7 +19,8 @@ mod_calfGrowth_ui <- function(id) {
       width = 12,
       height = "auto",
       footer = tags$p("A linha preta representa o desempenho m\u00e9dio das bezerras.",
-                      style = "font-size: 12px; color: grey; text-align: center;"),
+        style = "font-size: 12px; color: grey; text-align: center;"
+      ),
       plotly::plotlyOutput(ns("data_types"))
     ),
     bs4Dash::box(
@@ -52,7 +52,7 @@ mod_calfGrowth_server <- function(id, growth_data) {
     })
 
     output$data_types <- plotly::renderPlotly({
-      #browser()
+      # browser()
       data <- adg_calc() |>
         dplyr::select(`Num. Bezerra`, `Peso Nasc. (kg)`) |>
         dplyr::mutate("Idade Pesagem (dias)" = 0) |>
@@ -61,7 +61,8 @@ mod_calfGrowth_server <- function(id, growth_data) {
           adg_calc() |>
             dplyr::filter(Desmamada == "Nao") |>
             dplyr::select(`Num. Bezerra`, `Peso (kg)`, `Idade Pesagem (dias)`)
-        )
+        ) |>
+        dplyr::filter(`Num. Bezerra` %in% input$calf_id)
 
       model_gmd <- stats::lm(`Peso (kg)` ~ `Idade Pesagem (dias)`, data = data)
 
@@ -69,12 +70,12 @@ mod_calfGrowth_server <- function(id, growth_data) {
         plotly::plot_ly(
           x = ~`Idade Pesagem (dias)`,
           y = ~`Peso (kg)`,
-          type = 'scatter',
-          mode = 'lines+markers',
+          type = "scatter",
+          mode = "lines+markers",
           color = ~`Num. Bezerra`,
           split = ~`Num. Bezerra`,
           hoverinfo = "text",
-          text = ~paste(
+          text = ~ paste(
             "Idade (dias):", `Idade Pesagem (dias)`,
             "<br>Peso (kg):", `Peso (kg)`,
             "<br>Num. Bezerra:", `Num. Bezerra`
@@ -82,7 +83,7 @@ mod_calfGrowth_server <- function(id, growth_data) {
         ) |>
         plotly::add_lines(
           x = ~`Idade Pesagem (dias)`,
-          y = ~(`Idade Pesagem (dias)` * stats::coef(model_gmd)[[2]] + stats::coef(model_gmd)[[1]]),
+          y = ~ (`Idade Pesagem (dias)` * stats::coef(model_gmd)[[2]] + stats::coef(model_gmd)[[1]]),
           name = "Regression Line",
           line = list(color = "black"),
           hoverinfo = "none" # Desativa hover para a linha de regressão
@@ -97,40 +98,69 @@ mod_calfGrowth_server <- function(id, growth_data) {
     })
 
     output$growth_kpis <- renderUI({
-      bs4Dash::box(
-        title = "Principais Indicadores de Desempenho.",
-        status = "success",
-        solidHeader = TRUE,
-        collapsible = TRUE,
-        width = 12,
-        height = "auto",
-        fluidRow(
-          column(
-            3,
-            customValueBox(
-              value = length(unique(adg_calc()$`Num. Bezerra`)),
-              name = "N\u00ba de Bezerras:", change = 10
+      tagList(
+        bs4Dash::box(
+          title = "Filtros",
+          status = "success",
+          solidHeader = TRUE,
+          collapsible = TRUE,
+          width = 12,
+          height = "auto",
+          fluidRow(
+            column(
+              6,
+              dateRangeInput(ns("birth_date"), "Data de Nascimento:",
+                start = min(adg_calc()$`Data Nasc.`),
+                end = max(adg_calc()$`Data Nasc.`),
+                min = min(adg_calc()$`Data Nasc.`),
+                max = max(adg_calc()$`Data Nasc.`)
+              )
             ),
-          ),
-          column(
-            3,
-            customValueBox(
-              value = round(mean(adg_calc()$`Peso Nasc. (kg)`), 2),
-              name = "Peso M\u00e9dio Nasc.:", change = 10, unit = "kg"
+            column(
+              6,
+              selectInput(ns("calf_id"), "Bezerra:",
+                choices = unique(adg_calc()$`Num. Bezerra`),
+                selected = unique(adg_calc()$`Num. Bezerra`),
+                multiple = TRUE
+              )
             )
-          ),
-          column(
-            3,
-            customValueBox(
-              value = round(mean(adg_calc()$`ADG (kg)`), 3),
-              name = "ADG:", change = 10, unit = "kg"
-            )
-          ),
-          column(
-            3,
-            customValueBox(
-              value = round(mean(adg_calc()$`Idade ao Desm.`, na.rm = TRUE), 2),
-              name = "Idade M\u00e9dia ao Desaleitamento:", change = 10, unit = "dias"
+          )
+        ),
+        bs4Dash::box(
+          title = "Principais Indicadores de Desempenho",
+          status = "success",
+          solidHeader = TRUE,
+          collapsible = TRUE,
+          width = 12,
+          height = "auto",
+          fluidRow(
+            column(
+              3,
+              customValueBox(
+                value = length(unique(adg_calc()$`Num. Bezerra`)),
+                name = "N\u00ba de Bezerras:", change = 10
+              ),
+            ),
+            column(
+              3,
+              customValueBox(
+                value = round(mean(adg_calc()$`Peso Nasc. (kg)`), 2),
+                name = "Peso M\u00e9dio Nasc.:", change = 10, unit = "kg"
+              )
+            ),
+            column(
+              3,
+              customValueBox(
+                value = round(mean(adg_calc()$`ADG (kg)`), 3),
+                name = "ADG:", change = 10, unit = "kg"
+              )
+            ),
+            column(
+              3,
+              customValueBox(
+                value = round(mean(adg_calc()$`Idade ao Desm.`, na.rm = TRUE), 2),
+                name = "Idade M\u00e9dia ao Desaleitamento:", change = 10, unit = "dias"
+              )
             )
           )
         )
@@ -138,7 +168,8 @@ mod_calfGrowth_server <- function(id, growth_data) {
     })
 
     output$data_table_teste <- DT::renderDT({
-      adg_calc()
+      adg_calc() |>
+        dplyr::filter(`Num. Bezerra` %in% input$calf_id)
     })
   })
 }
