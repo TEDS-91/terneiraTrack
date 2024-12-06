@@ -9,12 +9,17 @@ Imports:
     config (>= 0.3.2),
     dplyr,
     DT,
+    fresh,
     golem (>= 0.4.1),
+    googledrive,
     htmltools,
+    lbr,
     plotly,
     quarto,
     readxl,
-    shiny (>= 1.8.1.1)
+    shiny (>= 1.8.1.1),
+    shinymanager,
+    tibble
 Suggests:
     glue,
     here,

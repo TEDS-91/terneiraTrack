@@ -52,7 +52,7 @@ mod_calfGrowth_server <- function(id, growth_data) {
     })
 
     output$data_types <- plotly::renderPlotly({
-      # browser()
+      req(growth_data, input$calf_id)
       data <- adg_calc() |>
         dplyr::select(`Num. Bezerra`, `Peso Nasc. (kg)`) |>
         dplyr::mutate("Idade Pesagem (dias)" = 0) |>
@@ -64,7 +64,10 @@ mod_calfGrowth_server <- function(id, growth_data) {
         ) |>
         dplyr::filter(`Num. Bezerra` %in% input$calf_id)
 
-      model_gmd <- stats::lm(`Peso (kg)` ~ `Idade Pesagem (dias)`, data = data)
+      model_gmd <- stats::lm(`Peso (kg)` ~ `Idade Pesagem (dias)`,
+        data = data,
+        na.action = stats::na.exclude
+      )
 
       data |>
         plotly::plot_ly(

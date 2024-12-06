@@ -6,6 +6,8 @@ utils::globalVariables(
     "Data Pesagem",
     "Desmamada",
     "Idade Pesagem (dias)",
-    "Num. Bezerra"
+    "Num. Bezerra",
+    "folder",
+    "consultant"
   )
 )

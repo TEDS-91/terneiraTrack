@@ -10,6 +10,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     bs4Dash::dashboardPage(
+      freshTheme = app_theme(),
       bs4Dash::dashboardHeader(
         # title = bs4Dash::dashboardBrand(
         # title = "TerneiraTrack",
@@ -57,14 +58,15 @@ app_ui <- function(request) {
         bs4Dash::tabItems(
           bs4Dash::tabItem(
             tabName = "dataEntry",
+            mod_farmRegistration_ui("farmRegistration_1"),
             mod_fileUploader_ui("fileUploader_1"),
+            verbatimTextOutput("auth_output"),
             h2("Data Entry tab content")
           ),
           bs4Dash::tabItem(
             tabName = "performance",
             mod_calfGrowth_ui("calfGrowth_1"),
-            # DT::dataTableOutput("data_table_teste"),
-            h2("Performance tab content")
+            # DT::dataTableOutput("data_table_teste")
           ),
           bs4Dash::tabItem(
             tabName = "health",
@@ -85,6 +87,9 @@ app_ui <- function(request) {
     )
   )
 }
+
+# Wrapping the UI with secure_app
+app_ui <- shinymanager::secure_app(app_ui)
 
 #' Add external Resources to the Application
 #'
