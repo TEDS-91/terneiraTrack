@@ -13,7 +13,6 @@ Imports:
     golem (>= 0.4.1),
     googledrive,
     htmltools,
-    lbr,
     plotly,
     quarto,
     readxl,

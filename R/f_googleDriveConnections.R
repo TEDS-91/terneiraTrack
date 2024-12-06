@@ -8,7 +8,7 @@
 #' @export
 #'
 create_new_sheet <- function(folder_id, sheet_name, template) {
-  lbr::gs4_create_at(sheet_name,
+  gs4_create_at(name = sheet_name,
     path = googledrive::as_id(folder_id),
     sheets = template
   )
@@ -23,4 +23,29 @@ create_new_sheet <- function(folder_id, sheet_name, template) {
 #'
 list_farms <- function(folder_id) {
   googledrive::drive_ls(googledrive::as_id(folder_id))
+}
+
+#' @title List the sheets in a folder.
+#'
+#' @param path Path.
+#' @param name Name.
+#' @param sheets Sheets.
+#' @param overwrite Overwrite.
+#' @param ... ...
+#'
+#' @return A Google Sheet.
+#' @export
+#'
+gs4_create_at <- function(path = NULL,
+                          name = gs4_random(),
+                          sheets = NULL,
+                          overwrite = NA,
+                          ...
+) {
+
+  ss <- googlesheets4::gs4_create(name = name, sheets = sheets, ...)
+
+  googledrive::drive_mv(ss, path = path, name = name, overwrite = overwrite)
+
+  ss
 }
